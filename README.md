@@ -26,7 +26,29 @@ description: Open an in-app browser window.
 |[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-inappbrowser?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-inappbrowser)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-inappbrowser.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-inappbrowser)|
 
 # cordova-plugin-inappbrowser
+(fixed iOS - build fails if using "WKWebViewOnly" preference)
 
+https://github.com/apache/cordova-plugin-inappbrowser/issues/583
+## Reference
+Disabling UIWebView
+
+With the introduction of the WK_WEB_VIEW_ONLY flag, references to UIWebView are removed from the source.
+But when compile Cordova app with cordova-plugin-ionic-webview, inappbrowser plugin build fails if using "WKWebViewOnly" preference on iOS
+
+    $ cordova build ios
+    ...
+    ** BUILD FAILED **
+
+    The following build commands failed:
+      CompileC /Users/victor/Library/Developer/Xcode/DerivedData/HelloWorld-gkfkyeoqkfbkfraoaiudwelwuief/Build/Intermediates.noindex/HelloWorld.build/Debug-iphonesimulator/HelloWorld.build/Objects-normal/x86_64/CDVUIInAppBrowser.o /Volumes/MacHD2/Work/cordova/HelloWorld1/platforms/ios/HelloWorld/Plugins/cordova-plugin-inappbrowser/CDVUIInAppBrowser.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+    (1 failure)
+    xcodebuild: Command failed with exit code 65
+    [ERROR] An error occurred while running subprocess cordova.
+
+`Fixed: `
+https://github.com/apache/cordova-plugin-inappbrowser/pull/584#issuecomment-568294863
+
+## Description
 You can show helpful articles, videos, and web resources inside of your app. Users can view web pages without leaving your app.
 
 > To get a few ideas, check out the [sample](#sample) at the bottom of this page or go straight to the [reference](#reference) content.
@@ -58,7 +80,7 @@ forward, done).
 
 ## Installation
 
-    cordova plugin add cordova-plugin-inappbrowser
+    cordova plugin add https://github.com/victorsoftart/cordova-plugin-inappbrowser.git
 
 If you want all page loads in your app to go through the InAppBrowser, you can
 simply hook `window.open` during initialization.  For example:
